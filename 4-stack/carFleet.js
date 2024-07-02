@@ -14,3 +14,31 @@
 
 // Hmm.... I read and understand a solution... reverse sort by distance from target, then find time to reach target.
 // But I don't see why it's a stack...
+
+// Copilot:
+// I guess it's because we are only interested in the car fleets that are in front of us, and we can pop them off the stack if they are slower than us.
+
+function carFleet(target, positions, speeds) {
+  const n = positions.length;
+  const cars = Array(n)
+    .fill()
+    .map((_, i) => [positions[i], speeds[i]])
+    .sort((a, b) => b[0] - a[0]);
+
+  console.log(cars);
+  let fleets = 0;
+  let prevTime = 0;
+
+  for (const [pos, speed] of cars) {
+    const timeToReach = (target - pos) / speed;
+    if (timeToReach > prevTime) {
+      prevTime = timeToReach;
+      fleets++;
+    }
+  }
+
+  return fleets;
+}
+
+console.log(carFleet(12, [10, 8, 0, 5, 3], [2, 4, 1, 1, 3])); // 3
+console.log(carFleet(10, [4, 1, 0, 7], [2, 2, 1, 1])); // 3

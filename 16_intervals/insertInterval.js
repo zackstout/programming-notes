@@ -9,79 +9,116 @@
 
 // Ugh we really managed to mess this up lol
 
+// function mergeIntervals(a, b) {
+//   return [Math.min(a[0], b[0]), Math.max(a[1], b[1])];
+// }
+
+// function intervalsOverlap(a, b) {
+//   return a[0] <= b[1] && b[0] <= a[1];
+// }
+
+// function insertInterval(interval, intervals) {
+//   // ==============================
+//   // Copilot
+//   // ==============================
+
+//   // const result = [];
+//   // let i = 0;
+
+//   // // Add all the intervals that end before the new interval starts
+//   // while (i < intervals.length && intervals[i][1] < interval[0]) {
+//   //     result.push(intervals[i]);
+//   //     i++;
+//   // }
+
+//   // // Merge all the intervals that overlap with the new interval
+//   // while (i < intervals.length && intervalsOverlap(intervals[i], interval)) {
+//   //     interval = mergeIntervals(intervals[i], interval);
+//   //     i++;
+//   // }
+
+//   // result.push(interval);
+
+//   // // Add all the intervals that start after the new interval ends
+//   // while (i < intervals.length) {
+//   //     result.push(intervals[i]);
+//   //     i++;
+//   // }
+
+//   // return result;
+
+//   // ==============================
+//   let started = false;
+//   let ended = false;
+//   const starts = [];
+//   let mid = [];
+//   const ends = [];
+
+//   for (let x = 0; x < intervals.length; x++) {
+//     const i = intervals[x];
+//     if (started) {
+//       if (ended) {
+//         ends.push(i);
+//       } else {
+//         if (intervalsOverlap(i, interval)) {
+//           // interval = mergeIntervals(i, interval);
+//           continue;
+//         } else {
+//           // mid = interval;
+//           console.log("No overlap", i, interval);
+//           mid[1] = Math.max(intervals[x - 1][1], interval[1]);
+//           ended = true;
+//           ends.push(i);
+//         }
+//       }
+//     } else {
+//       if (intervalsOverlap(i, interval)) {
+//         mid[0] = Math.min(i[0], interval[0]);
+//         started = true;
+//       } else {
+//         starts.push(i);
+//       }
+//     }
+//   }
+
+//   return [...starts, mid, ...ends];
+// }
+
 function mergeIntervals(a, b) {
+  if (a.length === 0) return b;
+  if (b.length === 0) return a;
   return [Math.min(a[0], b[0]), Math.max(a[1], b[1])];
 }
 
 function intervalsOverlap(a, b) {
+  if (a.length === 0 || b.length === 0) return true;
   return a[0] <= b[1] && b[0] <= a[1];
 }
 
+// Ahhh yeah this is close....
+// But it doesn't insert the interval at proper place if it doesn't overlap anyone.
+
+// Yeah, fine, I guess the copilot approach was best.
 function insertInterval(interval, intervals) {
-  // ==============================
-  // Copilot
-  // ==============================
+  const result = [];
 
-  // const result = [];
-  // let i = 0;
+  let prev = interval;
 
-  // // Add all the intervals that end before the new interval starts
-  // while (i < intervals.length && intervals[i][1] < interval[0]) {
-  //     result.push(intervals[i]);
-  //     i++;
-  // }
-
-  // // Merge all the intervals that overlap with the new interval
-  // while (i < intervals.length && intervalsOverlap(intervals[i], interval)) {
-  //     interval = mergeIntervals(intervals[i], interval);
-  //     i++;
-  // }
-
-  // result.push(interval);
-
-  // // Add all the intervals that start after the new interval ends
-  // while (i < intervals.length) {
-  //     result.push(intervals[i]);
-  //     i++;
-  // }
-
-  // return result;
-
-  // ==============================
-  let started = false;
-  let ended = false;
-  const starts = [];
-  let mid = [];
-  const ends = [];
-
-  for (let x = 0; x < intervals.length; x++) {
-    const i = intervals[x];
-    if (started) {
-      if (ended) {
-        ends.push(i);
-      } else {
-        if (intervalsOverlap(i, interval)) {
-          // interval = mergeIntervals(i, interval);
-          continue;
-        } else {
-          // mid = interval;
-          console.log("No overlap", i, interval);
-          mid[1] = Math.max(intervals[x - 1][1], interval[1]);
-          ended = true;
-          ends.push(i);
-        }
-      }
+  for (const int of intervals) {
+    if (intervalsOverlap(prev, int)) {
+      prev = mergeIntervals(prev, int);
     } else {
-      if (intervalsOverlap(i, interval)) {
-        mid[0] = Math.min(i[0], interval[0]);
-        started = true;
-      } else {
-        starts.push(i);
-      }
+      // if (prev[0] === interval[0] && prev[1] === interval[1]) {
+      //   continue;
+      // }
+      result.push(prev);
+      prev = int;
     }
   }
 
-  return [...starts, mid, ...ends];
+  result.push(prev);
+
+  return result;
 }
 
 console.log(
@@ -103,3 +140,14 @@ console.log(
 //     ]
 //   )
 // ); // [[1, 9]]
+
+console.log(
+  insertInterval(
+    [6, 7],
+    [
+      [1, 2],
+      [3, 5],
+      [9, 10],
+    ]
+  )
+);

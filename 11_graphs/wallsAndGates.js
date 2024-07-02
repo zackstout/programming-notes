@@ -17,27 +17,30 @@ const input = [
 ];
 
 // Aarrrrrgh frustrating one, we are soo close...we need to ignore one's we've seen....
-function bfs(g, i, j, dist) {
-  if (i < 0 || i >= g.length || j < 0 || j >= g[0].length) {
-    return;
-  }
-  if (dist < g[i][j]) {
-    g[i][j] = dist;
-  }
-  if (g[i][j] === -1 || (g[i][j] === 0 && dist > 0)) {
-    return;
-  }
-  bfs(g, i + 1, j, dist + 1);
-  bfs(g, i - 1, j, dist + 1);
-  bfs(g, i, j + 1, dist + 1);
-  bfs(g, i, j - 1, dist + 1);
-}
+
+// Hm, well, for one thing, this is structured more like a dfs right now.
+// That may be the issue...
+// function bfs(g, i, j, dist) {
+//   if (i < 0 || i >= g.length || j < 0 || j >= g[0].length) {
+//     return;
+//   }
+//   if (dist < g[i][j]) {
+//     g[i][j] = dist;
+//   }
+//   if (g[i][j] === -1 || (g[i][j] === 0 && dist > 0)) {
+//     return;
+//   }
+//   bfs(g, i + 1, j, dist + 1);
+//   bfs(g, i - 1, j, dist + 1);
+//   bfs(g, i, j + 1, dist + 1);
+//   bfs(g, i, j - 1, dist + 1);
+// }
 
 function wallsAndGates(rooms) {
   for (let i = 0; i < rooms.length; i++) {
     for (let j = 0; j < rooms[0].length; j++) {
       if (rooms[i][j] === 0) {
-        bfs(rooms, i, j, 0);
+        bfs(rooms, i, j);
       }
     }
   }
@@ -45,4 +48,42 @@ function wallsAndGates(rooms) {
 
 wallsAndGates(input);
 
-console.log(input);
+// YESSS I think we got there. Use actual bfs instead of dfs, and, keep track of which we have seen.
+console.log("Final", input);
+
+function bfs(rooms, i, j) {
+  const queue = [];
+
+  queue.push([i, j, 0]);
+
+  const seen = new Map();
+
+  while (queue.length) {
+    const [i, j, dist] = queue.shift();
+
+    if (seen.get(`${i},${j}`)) {
+      continue;
+    }
+
+    // console.log(i, j, dist);
+
+    seen.set(`${i},${j}`, 1);
+
+    if (i < 0 || i >= rooms.length || j < 0 || j >= rooms[0].length) {
+      continue;
+    }
+
+    if (rooms[i][j] === -1 || (rooms[i][j] === 0 && dist > 0)) {
+      continue;
+    }
+
+    if (dist < rooms[i][j]) {
+      rooms[i][j] = dist;
+    }
+
+    queue.push([i + 1, j, dist + 1]);
+    queue.push([i - 1, j, dist + 1]);
+    queue.push([i, j + 1, dist + 1]);
+    queue.push([i, j - 1, dist + 1]);
+  }
+}

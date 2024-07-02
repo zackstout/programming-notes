@@ -3,6 +3,8 @@
 // Each transformation can only change one letter at a time.
 // Each transformed word must exist in the wordList.
 
+// Yeah so basically just BFS. Nice. I guess the "hard" part is recognizing the graph structure?
+
 function ladderLength(beginWord, endWord, wordList) {
   const wordSet = new Set(wordList);
   if (!wordSet.has(endWord)) return 0;
@@ -10,6 +12,8 @@ function ladderLength(beginWord, endWord, wordList) {
   const queue = [[beginWord, 1]];
   while (queue.length) {
     // Huh I thought you would have to search to find min length...guess not, nice
+    // TODO: We should check if same is true in 12_advanced_graphs/networkDelay.js
+    // I don't think so. We have to compute minimum for that one, almost positive.
     const [word, level] = queue.shift();
     if (word === endWord) return level;
 
