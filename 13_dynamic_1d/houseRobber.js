@@ -20,3 +20,27 @@ console.log(maximizeProfit([2, 3, 2])); // 4
 console.log(maximizeProfit([1, 2, 3, 1])); // 4
 console.log(maximizeProfit([0])); // 0
 console.log(maximizeProfit([2, 7, 9, 3, 1])); // 12
+
+// Honestly this way makes more sense to me, more of a "classic" DP approach:
+
+function maximizeProfitDP(nums) {
+  const dp = new Array(nums.length).fill(0);
+  dp[0] = nums[0];
+  dp[1] = Math.max(nums[0], nums[1]);
+  for (let i = 2; i < nums.length; i++) {
+    // What's bigger? The previous house? Or the house before that plus the current house?
+    dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+  }
+  return dp[nums.length - 1];
+}
+
+console.log(maximizeProfitDP([2, 3, 2])); // 4
+console.log(maximizeProfitDP([1, 2, 3, 1])); // 4
+console.log(maximizeProfitDP([0])); // 0
+console.log(maximizeProfitDP([2, 7, 9, 3, 1])); // 12
+
+// ========================================================
+
+// And for house robber 2, where houses are in a circle...
+// You just run this for the first n-1 houses, and then for the last n-1 houses, and take the max of the two.
+// Huh. Nice.
