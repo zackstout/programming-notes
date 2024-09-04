@@ -59,3 +59,57 @@ var minSubArrayLen2 = function (target, nums) {
 
   return min === Infinity ? 0 : min;
 };
+
+// ====================================================================================================
+
+// Attempt at re-writing that didn't work:
+
+/**
+ * @param {number} target
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minSubArrayLen = function (target, nums) {
+  let curr = 0;
+  let p1 = 0;
+  let p2 = 0;
+  let minLength = Infinity;
+  while (p2 < nums.length && p1 < nums.length) {
+    if (curr < target) {
+      p2++;
+      curr += nums[p2];
+    } else {
+      minLength = Math.min(minLength, p2 - p1 + 1);
+      p1++;
+      curr -= nums[p1 - 1];
+    }
+  }
+  return minLength;
+};
+
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var productExceptSelf = function (nums) {
+  let lp = 1;
+  let rp = 1;
+  const leftProducts = [];
+  const rightProducts = [];
+  for (let i = 0; i < nums.length; i++) {
+    leftProducts[i] = lp;
+    lp *= nums[i];
+  }
+  for (let i = nums.length - 1; i >= 0; i--) {
+    rightProducts[i] = rp;
+    rp *= nums[i];
+  }
+  console.log(leftProducts, rightProducts);
+  const result = [];
+  for (let i = 0; i < nums.length; i++) {
+    result[i] = leftProducts[i] * rightProducts[i];
+  }
+  return result;
+};
+
+console.log(productExceptSelf([1, 2, 3, 4])); // [24,12,8,6]
