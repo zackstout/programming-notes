@@ -555,7 +555,7 @@ You should preserve the original relative order of the nodes in each of the two 
 
 ### Swim in Rising Water
 
-- Basically an extension/application of Djikstra's
+- Basically an extension/application of Dijkstra's
 
 ### Strongly connected components
 
@@ -710,7 +710,7 @@ You should preserve the original relative order of the nodes in each of the two 
 - for every node, the value of its children is greater than or equal to its own value.
 - (Note: can also do max-heap, where value of each node's children is LESS than or equal to its own value)
 - Heaps are usually used to implement priority queues, where the smallest (or largest) element is always at the root of the tree.
-- Heaps are used in Prim's, Djikstra's, A\*, heapsort..
+- Heaps are used in Prim's, Dijkstra's, A\*, heapsort..
 
 ### Kth Largest Element in an Array
 
@@ -913,50 +913,26 @@ Given an m x n binary matrix filled with 0's and 1's, find the largest square co
 
 ---
 
-- [ ] Arrays/Strings (including Greedy)
-- [x] Two Pointer
-- [x] Sliding Window
-- [x] Matrix
-- [x] Hash map
-- [x] Intervals
-- [x] Stacks
-- [ ] Linked Lists
-- [ ] Binary Trees
-- [ ] Binary Trees BFS
-- [ ] Binary Search Trees
-- [x] Graphs
-- [ ] Graphs: BFS
-- [ ] Graphs: Advanced
-- [ ] Tries
-- [x] Backtracking
-- [ ] Divide & Conquer
-- [ ] Kadane's
-- [x] Binary Search
-- [ ] Heaps
-- [x] Bit Manipulation
-- [x] Math
-- [x] DP
-- [ ] 2d DP
+Advanced/Other:
 
-Advanced stuff: https://www.geeksforgeeks.org/top-algorithms-and-data-structures-for-competitive-programming/#
-
-To learn:
-
-- heaps
-- tries
-- divide and conquer
-
-To practice:
-
-- kadane's
-- advanced graphs
-- 2d dp
-- linked list
-- binary tree
-
----
-
-https://cp-algorithms.com/algebra/binary-exp.html
-
-- To compute pow(x, n) we don't need to multiply x by itself n times.
-- Can extend this idea to compute nth Fibonacci number more quickly (using a power of a matrix)
+- Floyd Warshall
+- Prim vs Kruskal
+- Johnson's
+- Articulation points (cut vertices) in a graph
+- Bridges in a graph
+- subset sum (dp)
+- knapsack (dp)
+- min partition (dp)
+- quicksort
+- mergesort
+- countsort
+- heapsort
+- sieve of erasthenes
+- prime factorization
+- modular arithmetic
+- totient function
+- modular exponentiation
+- modular multiplicative inverses
+- catalan numbers
+- convex hull
+- matrix exponentiation
