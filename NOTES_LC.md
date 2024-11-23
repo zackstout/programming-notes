@@ -793,6 +793,7 @@ Return the k pairs (u1, v1), (u2, v2), ..., (uk, vk) with the smallest sums.
 ### Factorial Trailing Zeroes
 
 - Given an integer n, return the number of trailing zeroes in n!.
+- _Strategy_: Nice, just a matter of counting powers of 5.
 
 ### Pow(x, n)
 
@@ -936,3 +937,18 @@ Advanced/Other:
 - catalan numbers
 - convex hull
 - matrix exponentiation
+
+# Other Techniques
+
+## Summed Area Tables
+
+- Useful for generating the sum of values in a rectangular area of a grid.
+- Starts with first pass that initializes every cell as (v + I(x, y-1) + I(x-1, y) - I(x-1, y-1)).
+- Then any rectangular region can be computed as I(LR) + I[UL] - I[UR] - I[LL]. Feels like Euclid. Awesome.
+- Exmaple: Advent of Code, 2018, Day 12
+
+## Deques
+
+- Short for "double-ended queue"
+- Useful for situations where you have a circular list and adding/removing items as you go
+- Exmaple: Advent of Code, 2018, Day 9
