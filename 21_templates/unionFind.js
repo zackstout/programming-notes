@@ -1,8 +1,3 @@
-// Kruskal's -- greedy, continuously take lowest weight edge that does not produce cycle.
-// Prim's -- greedy, continuously take lowest weight edge that connects to current tree.
-
-// Also union-find??
-
 class UnionFind {
   constructor(size) {
     this.parent = new Array(size).fill(0).map((_, index) => index);
@@ -31,34 +26,19 @@ class UnionFind {
       }
     }
   }
-}
 
-function kruskalMST(edges, numNodes) {
-  edges.sort((a, b) => a[2] - b[2]); // Sort edges by weight
-  let uf = new UnionFind(numNodes);
-  let mst = [];
-
-  for (let [u, v, weight] of edges) {
-    if (uf.find(u) !== uf.find(v)) {
-      uf.union(u, v);
-      mst.push([u, v, weight]);
-    }
+  connected(node1, node2) {
+    return this.find(node1) === this.find(node2);
   }
-
-  return mst;
 }
 
 // Example usage:
 function example() {
-  const edges = [
-    [0, 1, 1],
-    [0, 2, 3],
-    [1, 2, 1],
-    [1, 3, 4],
-    [2, 3, 2],
-  ];
-  let mst = kruskalMST(edges, 4);
-  console.log("Minimum Spanning Tree:", mst);
+  let uf = new UnionFind(5);
+  uf.union(0, 1);
+  uf.union(1, 2);
+  console.log("0 and 2 connected:", uf.connected(0, 2)); // true
+  console.log("0 and 3 connected:", uf.connected(0, 3)); // false
 }
 
 example();

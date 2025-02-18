@@ -951,4 +951,17 @@ Advanced/Other:
 
 - Short for "double-ended queue"
 - Useful for situations where you have a circular list and adding/removing items as you go
-- Exmaple: Advent of Code, 2018, Day 9
+- Example: Advent of Code, 2018, Day 9
+
+## Advanced Pathfinding
+
+- Example: Advent of Code, 2023, Day 17
+- Involves rolling relevant variables into state, then using a straightforward BFS algorithm
+
+## Using Regex effectively
+
+- re.exec(str) vs str.match(re)
+- sometimes we need a while loop to keep finding matches
+- Example: Advent of Code, 2024, Day 3
+
+=================================
