@@ -1,3 +1,5 @@
+// Hard
+
 /**
  * @param {string} board
  * @param {string} hand
