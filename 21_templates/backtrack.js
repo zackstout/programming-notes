@@ -10,8 +10,8 @@ function backtrack(
     return;
   }
 
-  let candidates = generateCandidates(path, options);
-  for (let candidate of candidates) {
+  const candidates = generateCandidates(path, options);
+  for (const candidate of candidates) {
     path.push(candidate); // Make a move
     backtrack(path, options, isSolution, processSolution, generateCandidates);
     path.pop(); // Undo the move (backtrack)
@@ -35,3 +35,9 @@ function example() {
 }
 
 example();
+
+// Ok... so we have the processSolution because it's tough to return result from backtrack... since it calls itself..
+
+// Kinda feels like this template isn't really "usable" or helpful, except as a reminder for how this works.
+
+// Contrast with BFS, which helpfully abstracts the shared/common logic from the problem-specific logic.

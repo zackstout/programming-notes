@@ -1,16 +1,17 @@
 function bfs(start, isGoal, getNeighbors) {
-  let queue = [start];
-  let visited = new Set();
+  const queue = [start];
+  const visited = new Set();
   visited.add(start);
 
   while (queue.length > 0) {
-    let node = queue.shift();
+    const node = queue.shift();
 
     if (isGoal(node)) {
       return node; // Goal found
     }
 
-    for (let neighbor of getNeighbors(node)) {
+    // NOTE: We could pass in separate validateNode function, or just handle that inside getNeighbors
+    for (const neighbor of getNeighbors(node)) {
       if (!visited.has(neighbor)) {
         visited.add(neighbor);
         queue.push(neighbor);
@@ -39,7 +40,7 @@ function example() {
     return graph[node] || [];
   }
 
-  let result = bfs(1, isGoal, getNeighbors);
+  const result = bfs(1, isGoal, getNeighbors);
   console.log("Goal found:", result);
 }
 
