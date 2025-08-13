@@ -60,6 +60,7 @@ const run = (partTwo = false) => {
       let weight = vals[yIdx][xIdx];
 
       if (partTwo) {
+        // This was dumb, we should have just stored original, whatever
         const originalRows = TOTAL_R / 5;
         let rowOffset = Math.floor(x2 / originalRows);
         let colOffset = Math.floor(y2 / originalRows);
