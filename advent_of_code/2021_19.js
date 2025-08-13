@@ -15,48 +15,86 @@ const run = (partTwo = false) => {
   const beacons = new Set();
   const scannerPos = new Map();
 
+  // For part 2
+  scannerPos.set(0, [0, 0, 0]);
+
   for (const b of scanners[0]) {
-    beacons.add(b);
+    beacons.add(b.join(","));
   }
 
   const placed = new Set();
   placed.add(0);
+
+  // For part 2:
+  //   let minX = 0;
+  //   let minY = 0;
+  //   let minZ = 0;
+  //   let maxX = -0;
+  //   let maxY = -0;
+  //   let maxZ = -0;
+  let maxDistance = 0;
+
+  // This.... "pre-computing" did not really seem to help haha
+  const scannerRotations = scanners.map((s) => {
+    const sr = s.map(rotate24);
+    return [...new Array(24)].map((_, idx) => {
+      return sr.map((rotatedPts) => rotatedPts[idx]);
+    });
+  });
 
   while (placed.size < scanners.length) {
     // Try to align any unplaced scanner:
     outer: for (let i = 0; i < scanners.length; i++) {
       console.log("scanner", i);
       if (placed.has(i)) continue;
-      const rotations = rotate24(scanners[i]);
 
-      // Ah ok this needs to be initialized out here..
+      //   // R is a point-list of 24-lists
+      //   const r = scanners[i].map((pt) => rotate24(pt));
+      //   // Wow that took unreasonably long lol
+      //   const rotations = [...new Array(24)].map((_, idx) =>
+      //     r.map((rotatedPts) => rotatedPts[idx])
+      //   );
 
-      // Each rot is a list of 24 version of the the point
+      const rotations = scannerRotations[i];
+
+      // Each rot a list of (rotated) points
       for (const rot of rotations) {
-        for (let ri = 0; ri < rot.length; ri++) {
-          const p = rot[ri];
-          //   console.log(p);
+        // Huh... so now the counter CAN be inited in here.... but we still get 985....
+        const counter = new Map();
+
+        for (const p of rot) {
           for (const b of [...beacons]) {
-            const t = [p[0] - b[0], p[1] - b[1], p[2] - b[2]];
-            // console.log(t);
+            const [bx, by, bz] = b.split(",").map(Number);
+            const t = [bx - p[0], by - p[1], bz - p[2]];
 
             const tk = t.join(",");
             counter.set(tk, (counter.get(tk) ?? 0) + 1);
-            // console.log(counter.get(tk));
-            if (counter.get(tk) === 12) {
-              console.log("Whoa we got one", placed.size, t);
+            if (counter.get(tk) >= 12) {
+              console.log("Whoa we got one", placed.size, t, b, beacons.size);
+
+              for (const v of [...scannerPos.values()]) {
+                const dist =
+                  Math.abs(v[0] - t[0]) +
+                  Math.abs(v[1] - t[1]) +
+                  Math.abs(v[2] - t[2]);
+                maxDistance = Math.max(maxDistance, dist);
+              }
 
               scannerPos.set(i, t);
+
               placed.add(i);
+
+              // For part 2:
+              //   minX = Math.min(minX, t[0]);
+              //   minY = Math.min(minY, t[1]);
+              //   minZ = Math.min(minZ, t[2]);
+              //   maxX = Math.max(maxX, t[0]);
+              //   maxY = Math.max(maxY, t[1]);
+              //   maxZ = Math.max(maxZ, t[2]);
+
               // Transform all beacons and add to global set
-
-              const pts = scanners[i].map((p) => rotate24([p])[0][ri]);
-              // .map((p) => p[ri]);
-              //   console.log("pts", ri, pts);
-              //   break outer;
-
-              pts.forEach(([px, py, pz]) => {
-                beacons.add([px + t[0], py + t[1], pz + t[2]]);
+              rot.forEach(([px, py, pz]) => {
+                beacons.add([px + t[0], py + t[1], pz + t[2]].join(","));
               });
 
               continue outer;
@@ -67,8 +105,11 @@ const run = (partTwo = false) => {
     }
   }
 
-  //   return scanners;
-  return beacons.size;
+  // Oooooh no
+  // It's the max distance between any 2 scanners.... Ok fine....
+
+  // For part 2:
+  return partTwo ? maxDistance : beacons.size;
 };
 
 // Ok it takes 13 seconds for part one..... should fix that....
@@ -77,7 +118,7 @@ const run = (partTwo = false) => {
 // lmao that  is the naive total -- it didn't find any same-placed ones..... what did we miss..... scanner location?
 
 console.time("run");
-console.log("Solution:", run());
+console.log("Solution:", run(true));
 console.timeEnd("run");
 
 // Interesting problem: the scanners do not know their own positions.
@@ -98,33 +139,37 @@ console.timeEnd("run");
 
 // 24 right-handed axis-aligned orientations
 
-function rotate24(pts) {
-  return pts.map(([x, y, z]) => {
-    return [
-      [x, y, z],
-      [x, z, -y],
-      [x, -y, -z],
-      [x, -z, y],
-      [-x, y, -z],
-      [-x, z, y],
-      [-x, -y, z],
-      [-x, -z, -y],
-      [y, x, -z],
-      [y, z, x],
-      [y, -x, z],
-      [y, -z, -x],
-      [-y, x, z],
-      [-y, z, -x],
-      [-y, -x, -z],
-      [-y, -z, x],
-      [z, x, y],
-      [z, y, -x],
-      [z, -x, -y],
-      [z, -y, x],
-      [-z, x, -y],
-      [-z, y, x],
-      [-z, -x, y],
-      [-z, -y, -x],
-    ];
-  });
+function rotate24([x, y, z]) {
+  return [
+    [x, y, z],
+    [x, z, -y],
+    [x, -y, -z],
+    [x, -z, y],
+    [-x, y, -z],
+    [-x, z, y],
+    [-x, -y, z],
+    [-x, -z, -y],
+    [y, x, -z],
+    [y, z, x],
+    [y, -x, z],
+    [y, -z, -x],
+    [-y, x, z],
+    [-y, z, -x],
+    [-y, -x, -z],
+    [-y, -z, x],
+    [z, x, y],
+    [z, y, -x],
+    [z, -x, -y],
+    [z, -y, x],
+    [-z, x, -y],
+    [-z, y, x],
+    [-z, -x, y],
+    [-z, -y, -x],
+  ];
 }
+
+// Omg..... the issue was relying on arrays working as set indexes......
+// wow
+// can't believe I didn't check that lol
+
+// Boom we got there on part 2 -- nice!
