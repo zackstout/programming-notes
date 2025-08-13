@@ -69,3 +69,34 @@ function example() {
 }
 
 example();
+
+// =======================
+
+// With heap
+
+// graph is Edge[][],
+// start is number
+// Edge is [number, number]
+function dijkstraHeap(graph, start) {
+  const n = graph.length;
+  const dist = Array(n).fill(Infinity);
+  dist[start] = 0;
+
+  const pq = new MinHeap(); // [distance, node]
+  pq.push([0, start]);
+
+  while (!pq.isEmpty()) {
+    const [currDist, u] = pq.pop();
+    if (currDist > dist[u]) continue; // already found shorter path
+
+    for (const [v, weight] of graph[u]) {
+      const newDist = currDist + weight;
+      if (newDist < dist[v]) {
+        dist[v] = newDist;
+        pq.push([newDist, v]);
+      }
+    }
+  }
+
+  return dist; // dist[i] is the shortest path from start to i
+}

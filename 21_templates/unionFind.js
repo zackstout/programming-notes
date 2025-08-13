@@ -12,8 +12,8 @@ class UnionFind {
   }
 
   union(node1, node2) {
-    let root1 = this.find(node1);
-    let root2 = this.find(node2);
+    const root1 = this.find(node1);
+    const root2 = this.find(node2);
 
     if (root1 !== root2) {
       if (this.rank[root1] > this.rank[root2]) {
@@ -34,7 +34,7 @@ class UnionFind {
 
 // Example usage:
 function example() {
-  let uf = new UnionFind(5);
+  const uf = new UnionFind(5);
   uf.union(0, 1);
   uf.union(1, 2);
   console.log("0 and 2 connected:", uf.connected(0, 2)); // true

@@ -3,22 +3,22 @@
 // This is Kahn's algorithm
 
 function topologicalSort(graph) {
-  let inDegree = {};
-  let queue = [];
-  let sortedOrder = [];
+  const inDegree = {};
+  const queue = [];
+  const sortedOrder = [];
 
   // Initialize in-degree of all nodes
-  for (let node in graph) {
+  for (const node in graph) {
     inDegree[node] = 0;
   }
-  for (let node in graph) {
-    for (let neighbor of graph[node]) {
+  for (const node in graph) {
+    for (const neighbor of graph[node]) {
       inDegree[neighbor] = (inDegree[neighbor] || 0) + 1;
     }
   }
 
   // Collect nodes with in-degree 0
-  for (let node in inDegree) {
+  for (const node in inDegree) {
     if (inDegree[node] === 0) {
       queue.push(node);
     }
@@ -26,10 +26,11 @@ function topologicalSort(graph) {
 
   // Process the queue
   while (queue.length > 0) {
-    let node = queue.shift();
+    // TODO: What would adding a ! to end of this do?
+    const node = queue.shift();
     sortedOrder.push(node);
 
-    for (let neighbor of graph[node]) {
+    for (const neighbor of graph[node]) {
       inDegree[neighbor]--;
       if (inDegree[neighbor] === 0) {
         queue.push(neighbor);
@@ -54,7 +55,7 @@ function example() {
     D: [],
   };
 
-  let result = topologicalSort(graph);
+  const result = topologicalSort(graph);
   console.log("Topological Order:", result);
 }
 
