@@ -13,7 +13,7 @@ const test = `1163751742
 2311944581`;
 
 const run = (partTwo = false) => {
-  const f = readFileSync("./advent_of_code/2021_15.txt", "utf8");
+  const f = readFileSync("./advent_of_code/2021/15.txt", "utf8");
   const vals = f.split("\n").map((line) => line.split("").map(Number));
 
   const frontier = new Heap((a, b) => a.cost - b.cost);

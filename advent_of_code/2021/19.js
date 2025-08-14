@@ -1,7 +1,7 @@
 const { readFileSync } = require("fs");
 
 const run = (partTwo = false) => {
-  const f = readFileSync("./advent_of_code/2021_19.txt", "utf8");
+  const f = readFileSync("./advent_of_code/2021/19.txt", "utf8");
   const scanners = f.split("\n\n").map((line) =>
     line
       .split("\n")

@@ -20,7 +20,7 @@ const test = `16
 4`;
 
 const run = () => {
-  const f = readFileSync("./advent_of_code/2020_10.txt", "utf8");
+  const f = readFileSync("./advent_of_code/2020/10.txt", "utf8");
   const vals = f.split("\n").map(Number);
   vals.sort((a, b) => a - b);
 

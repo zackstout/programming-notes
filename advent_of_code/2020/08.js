@@ -53,7 +53,7 @@ jmp -4
 acc +6`;
 
 const run = () => {
-  const f = readFileSync("./advent_of_code/2020_08.txt", "utf8");
+  const f = readFileSync("./advent_of_code/2020/08.txt", "utf8");
 
   const ops = f.split("\n").filter((x) => x);
   return runOps(ops);
